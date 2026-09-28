@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -252,6 +251,20 @@ if ($ADMIN->fulltree) {
     $details = get_string($name . '_details', constants::M_COMPONENT);
     $default = constants::M_WC_TERM_AS_READABLE;
     $options = utils::fetch_options_speechcards();
+    $settings->add(new admin_setting_configselect(
+        constants::M_COMPONENT . "/$name",
+        $label,
+        $details,
+        $default,
+        $options
+    ));
+
+    // Scatter - definition card shows definition, image, or both.
+    $name = 'scatteroptions';
+    $label = get_string($name, constants::M_COMPONENT);
+    $details = get_string($name . '_details', constants::M_COMPONENT);
+    $default = constants::M_SCATTER_DEF_ONLY;
+    $options = utils::fetch_options_scatter();
     $settings->add(new admin_setting_configselect(
         constants::M_COMPONENT . "/$name",
         $label,

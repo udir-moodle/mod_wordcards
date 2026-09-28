@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Define all the backup steps that will be used by the backup_wordcards_activity_task
  *
@@ -50,7 +51,8 @@ class backup_wordcards_activity_structure_step extends backup_activity_structure
                 'step1practicetype','step2practicetype','step3practicetype','step4practicetype','step5practicetype',
                 'completionwhenfinish','completionwhenlearned','maxattempts', 'timecreated', 'timemodified','skipreview', 'finishedstepmsg',
                 'completedmsg', 'ttslanguage','deflanguage','transcriber','passagehash','hashisold','foriframe',
-                'showimageflip', 'frontfaceflip','lcoptions','msoptions','sgoptions','scoptions','viewstart','viewend',
+                'showimageflip', 'frontfaceflip', 'lcoptions', 'msoptions', 'sgoptions', 'scoptions', 'scatteroptions',
+                'viewstart', 'viewend',
                 'videoexamples','learnpoint','freemodeoptions','showlangchooser','imageonfront','masterinstance'));
 
         $terms = new backup_nested_element('terms');

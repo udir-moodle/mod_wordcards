@@ -51,6 +51,17 @@ class constants {
     const M_CB_TRIAL_PRICEID = 'Poodll-Free-Trial-USD-Daily';
 
     const M_DEFLANG_OTHER = 'zz';
+
+    // Definitions languages the remote dictionary can actually return.
+    // M_RSDIC_LANGS are the languages the ESL Apps dictionary holds columns for; a lookup whose
+    // source language is one of these resolves against it directly. M_AIDEF_LANGS mirrors
+    // local_cpapi's M_EXTRALANGS - the languages the AI translation step adds on top. Keep this
+    // list in step with that one; if they drift, we offer definitions languages that resolve to
+    // "No translation available".
+    const M_RSDIC_LANGS = ['ar', 'en', 'es', 'fr', 'id', 'ja', 'ko', 'pt', 'rus', 'th', 'vi', 'zh', 'zh_tw'];
+    const M_AIDEF_LANGS = ['af', 'bn', 'bs', 'bg', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'et', 'fa', 'fi', 'ht', 'he',
+        'hi', 'hr', 'hu', 'is', 'lt', 'lv', 'ms', 'mt', 'nl', 'nb', 'pl', 'ro', 'sk', 'sl', 'so', 'sv', 'sw', 'ta',
+        'te', 'ti', 'tr', 'it', 'uk', 'ur'];
     const M_FRONTFACEFLIP_DEF = 0;
     const M_FRONTFACEFLIP_TERM = 1;
 
@@ -142,6 +153,7 @@ class constants {
     const M_LANG_BGBG = 'bg-BG';
     const M_LANG_CSCZ = 'cs-CZ';
     const M_LANG_ELGR = 'el-GR';
+    const M_LANG_ETEE = 'et-EE';
     const M_LANG_HRHR = 'hr-HR';
     const M_LANG_LTLT = 'lt-LT';
     const M_LANG_LVLV = 'lv-LV';
@@ -169,7 +181,9 @@ class constants {
         constants::M_LANG_ARAE => ['Hala'=>'Hala','Zayd'=>'Zayd'],
         constants::M_LANG_ARSA => ['Zeina'=>'Zeina'],
         constants::M_LANG_ZHCN => ['Zhiyu'=>'Zhiyu'],
-        constants::M_LANG_DADK => ['Naja'=>'Naja','Mads'=>'Mads'],
+        self::M_LANG_DADK => ['Naja' => 'Naja', 'Mads' => 'Mads',
+            'da-DK-Azure-ChristelNeural' => 'Christel_a', 'da-DK-Azure-JeppeNeural' => 'Jeppe_a'],
+        self::M_LANG_ETEE => ['et-EE-Azure-AnuNeural' => 'Anu_a', 'et-EE-Azure-KertNeural' => 'Kert_a'],
         constants::M_LANG_NLNL => ["Ruben"=>"Ruben","Lotte"=>"Lotte","Laura"=>"Laura"],
         constants::M_LANG_NLBE => ["Lisa"=>"Lisa"],
         constants::M_LANG_ENUS => ['Joey'=>'Joey','Justin'=>'Justin','Matthew'=>'Matthew','Ivy'=>'Ivy',
@@ -207,7 +221,8 @@ class constants {
         self::M_LANG_HRHR => ['hr-HR-Whisper-alloy' => 'Marko', 'hr-HR-Whisper-shimmer' => 'Ivana'],
         self::M_LANG_ZHCN => ['Zhiyu' => 'Zhiyu'],
         self::M_LANG_CSCZ => ['cs-CZ-Wavenet-A' => 'Zuzana_g', 'cs-CZ-Standard-A' => 'Karolina_g'],
-        self::M_LANG_DADK => ['Naja' => 'Naja', 'Mads' => 'Mads'],
+        self::M_LANG_DADK => ['Naja' => 'Naja', 'Mads' => 'Mads',
+            'da-DK-Azure-ChristelNeural' => 'Christel_a', 'da-DK-Azure-JeppeNeural' => 'Jeppe_a'],
         self::M_LANG_NLNL => ["Ruben" => "Ruben", "Lotte" => "Lotte", "Laura" => "Laura"],
         self::M_LANG_NLBE => ["nl-BE-Wavenet-B" => "Marc_g", "nl-BE-Wavenet-A" => "Marie_g", "Lisa" => "Lisa"],
         // constants::M_LANG_DECH => [],
@@ -231,6 +246,7 @@ class constants {
         self::M_LANG_DEDE => ['Hans' => 'Hans', 'Marlene' => 'Marlene', 'Vicki' => 'Vicki', 'Daniel' => 'Daniel'],
         self::M_LANG_DEAT => ['Hannah' => 'Hannah'],
         self::M_LANG_ELGR => ['el-GR-Wavenet-A' => 'Sophia_g', 'el-GR-Standard-A' => 'Isabella_g'],
+        self::M_LANG_ETEE => ['et-EE-Azure-AnuNeural' => 'Anu_a', 'et-EE-Azure-KertNeural' => 'Kert_a'],
         self::M_LANG_HIIN => ["Aditi" => "Aditi"],
         self::M_LANG_HEIL => ['he-IL-Wavenet-A' => 'Sarah_g', 'he-IL-Wavenet-B' => 'Noah_g'],
         self::M_LANG_HUHU => ['hu-HU-Wavenet-A' => 'Eszter_g'],
@@ -336,5 +352,16 @@ class constants {
     const M_PUSH_SGOPTIONS = 13;
     const M_PUSH_IMAGEONFRONT = 14;
     const M_PUSH_SCATTEROPTIONS = 15;
+    /** @var int push the learn mode card style to other activities */
+    const M_PUSH_LEARNMODECARDS = 16;
+
+    /**
+     * @var int two sided flip cards, the card wordcards has always had. Stays the default so that
+     * an activity built before the setting existed looks the same afterwards.
+     */
+    const M_CARDS_TWOSIDED = 0;
+
+    /** @var int one sided cards, showing the term, definition, example and translation together */
+    const M_CARDS_ONESIDED = 1;
 
 }

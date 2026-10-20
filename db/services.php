@@ -85,6 +85,14 @@ $functions = array(
         'type'        => 'write',
         'ajax'        => true,
     ),
+    'mod_wordcards_sync_sentence_translations' => array(
+        'classname'   => 'mod_wordcards_external',
+        'methodname'  => 'sync_sentence_translations',
+        'description' => 'fetches translated example sentences for terms that do not have them',
+        'capabilities'=> 'mod/wordcards:manage',
+        'type'        => 'write',
+        'ajax'        => true,
+    ),
     'mod_wordcards_search_dictionary' => array(
         'classname'   => 'mod_wordcards_external',
         'methodname'  => 'search_dictionary',
@@ -130,6 +138,30 @@ $functions = array(
         'ajax'        => true,
     ),
 
+    'mod_wordcards_queue_words' => [
+        'classname'   => 'mod_wordcards_external',
+        'methodname'  => 'queue_words',
+        'description' => 'Queue words to be looked up and added in the background',
+        'capabilities' => 'mod/wordcards:manage',
+        'type'        => 'write',
+        'ajax'        => true,
+    ],
+    'mod_wordcards_queue_images' => [
+        'classname'   => 'mod_wordcards_external',
+        'methodname'  => 'queue_images',
+        'description' => 'Queue pictures to be made in the background for the words that have none',
+        'capabilities' => 'mod/wordcards:manage',
+        'type'        => 'write',
+        'ajax'        => true,
+    ],
+    'mod_wordcards_get_background_status' => [
+        'classname'   => 'mod_wordcards_external',
+        'methodname'  => 'get_background_status',
+        'description' => 'What is still to be done in the background for an activity',
+        'capabilities' => 'mod/wordcards:manage',
+        'type'        => 'read',
+        'ajax'        => true,
+    ],
     'mod_wordcards_generate_bulk_images' => array(
         'classname'   => 'mod_wordcards_external',
         'methodname'  => 'generate_bulk_images',

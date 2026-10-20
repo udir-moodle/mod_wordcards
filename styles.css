@@ -1783,36 +1783,144 @@ ul.definition_flashcards_ul {
     text-align: center;
 }
 
-.mod_wordcards_ww_label {
-    display: inline-block;
-    /* width: 50px;*/
-    /* text-align: right; */
+.mod_wordcards_ww_cont {
+    max-width: 960px;
 }
 
-.mod_wordcards_ww_onesense {
-    border: 1px solid grey;
-    border-radius: 3px;
-    margin: 20px;
-    padding: 20px;
+.mod_wordcards_ww_searchbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
 }
 
-.mod_wordcards_ww_sourcedef {
-    font-style: italic;
+.mod_wordcards_ww_langdef {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mod_wordcards_ww_langdef select {
+    width: auto;
+}
+
+.mod_wordcards_ww_bgoptions,
+.mod_wordcards_ww_queueresult {
+    margin-top: 0.75rem;
+}
+
+.mod_wordcards_ww_bgalert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.mod_wordcards_ww_addedheader,
+.mod_wordcards_ww_wordheader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+}
+
+.mod_wordcards_ww_addedheader {
+    justify-content: space-between;
+}
+
+.mod_wordcards_ww_addedlist {
+    max-height: 16rem;
+    overflow-y: auto;
+}
+
+.mod_wordcards_ww_addeditem {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.mod_wordcards_ww_addeditem strong {
+    margin-right: 0.5rem;
+}
+
+.mod_wordcards_ww_skip {
+    margin-left: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.mod_wordcards_ww_senseview {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.mod_wordcards_ww_sensetext {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.mod_wordcards_ww_senseactions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 0.5rem;
 }
 
 .mod_wordcards_ww_def {
-    width: 100%;
-    max-width: 400px;
+    font-weight: bold;
 }
 
-.mod_wordcards_ww_modelsentence {
-    width: 100%;
-    max-width: 600px;
+.mod_wordcards_ww_def:empty::before,
+.mod_wordcards_ww_sentence:empty::before {
+    content: attr(data-empty);
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.7;
 }
 
-.mod_wordcards_ww_fieldset {
-    margin: 20px;
-    padding: 10px;
+.mod_wordcards_ww_sentence {
+    font-style: italic;
+    margin-top: 0.15rem;
+}
+
+.mod_wordcards_ww_senseedit {
+    margin-top: 0.75rem;
+}
+
+.mod_wordcards_ww_senseedit label {
+    margin: 0.5rem 0 0.15rem;
+}
+
+.mod_wordcards_ww_senseerror {
+    margin-top: 0.5rem;
+}
+
+.mod_wordcards_ww_failed {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.mod_wordcards_skeleton_box.mod_wordcards_ww_skeletonline {
+    height: 1rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0.25rem;
+    background-color: rgba(127, 127, 127, 0.25);
+}
+
+.mod_wordcards_skeleton_box.mod_wordcards_ww_skeletonshort {
+    width: 60%;
+    margin-bottom: 0;
+}
+
+@media (max-width: 575px) {
+    .mod_wordcards_ww_senseview {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 }
 
 .definition_flashcards a.wordcards-my-words-action {
@@ -2949,5 +3057,114 @@ button.definitions-next.btn .fa-arrow-right:before {
         height: 110px;
         border-width: 4px;
         font-size: 15px;
+    }
+}
+
+
+/* One sided learn mode cards (learnmodecards). Everything on a single face, so this card
+   deliberately has no flip-card class and no back. Ported by hand from the cards item type in
+   mod_minilesson, which has an scss build; this plugin does not. */
+
+.wc-onesided-card {
+    background-color: transparent;
+    width: 260px;
+    height: 480px;
+    cursor: default;
+}
+
+@media screen and (min-width: 400px) {
+    .wc-onesided-card {
+        width: 280px;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .wc-onesided-card {
+        width: 380px;
+        height: 500px;
+    }
+}
+
+.wc-onesided-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.12);
+    color: #1f2334;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 30px 20px;
+    overflow-y: auto;
+}
+
+@media screen and (min-width: 480px) {
+    .wc-onesided-card-inner {
+        font-size: 26px;
+    }
+}
+
+.wc-onesided-card-inner .term {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.wc-onesided-term {
+    font-weight: 600;
+}
+
+.wc-onesided-definition {
+    font-weight: 400;
+    font-size: 0.7em;
+    color: #80859d;
+}
+
+.wc-onesided-sentence {
+    font-weight: 400;
+    font-size: 0.65em;
+}
+
+.wc-onesided-sentence-translation {
+    font-weight: 400;
+    font-size: 0.6em;
+    font-style: italic;
+    color: #80859d;
+}
+
+/* The my words button is positioned by .flip-card-front / .flip-card-back for the two sided card;
+   this card is neither, so it needs its own corner. */
+.wc-onesided-card-inner a.wordcards-my-words-action {
+    right: 5px;
+}
+
+.wc-onesided-audio {
+    margin-inline-start: 0.4em;
+    font-size: 0.9em;
+    color: #506dff;
+    cursor: pointer;
+    vertical-align: baseline;
+}
+
+.wc-onesided-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    max-width: 80%;
+    max-height: 120px;
+    margin: 10px auto;
+}
+
+@media screen and (min-width: 480px) {
+    .wc-onesided-image {
+        max-height: 180px;
     }
 }

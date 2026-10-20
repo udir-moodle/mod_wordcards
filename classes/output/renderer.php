@@ -119,6 +119,9 @@ class renderer extends \plugin_renderer_base
             'str_definition' => get_string('definition', 'mod_wordcards'),
             'definitions' => array_values($definitions),
             'imageonfront' => $mod->get_mod()->imageonfront,
+            // Step 1 plumbs this through unused: the template still renders the two sided card
+            // either way, so flipping the setting is provably inert until the card itself lands.
+            'onesided' => (int)$mod->get_mod()->learnmodecards === constants::M_CARDS_ONESIDED,
             'youglish' => $youglish,
             'gotit' => get_string('gotit', 'mod_wordcards'),
             'loading' => get_string('loading', 'mod_wordcards'),
@@ -760,7 +763,8 @@ class renderer extends \plugin_renderer_base
             'msoptions',
             'sgoptions',
             'scatteroptions',
-            'imageonfront'
+            'imageonfront',
+            'learnmodecards',
         ];
 
         foreach ($pushthings as $pushthing) {
@@ -810,6 +814,9 @@ class renderer extends \plugin_renderer_base
                 case 'scatteroptions':
                     $action = constants::M_PUSH_SCATTEROPTIONS;
                     break;
+                case 'learnmodecards':
+                    $action = constants::M_PUSH_LEARNMODECARDS;
+                    break;
 
             }
             $templateitems[] = [
@@ -836,15 +843,54 @@ class renderer extends \plugin_renderer_base
     {
         $langterm = utils::fetch_rcdic_lang($mod->get_mod()->ttslanguage);
         $includeother = false;
-        $langdefs = utils::get_rcdic_langs($mod->get_mod()->deflanguage, $includeother);
+        // Restrict the list to languages a lookup can actually return for this source language,
+        // so the wizard cannot be pointed at a pairing that comes back empty.
+        $langdefs = utils::get_rcdic_langs($mod->get_mod()->deflanguage, $includeother, $langterm);
 
         $data = [
             'modid' => $mod->get_mod()->id,
             'cmid' => $cm->id,
             'langterm' => $langterm,
             'langdefs' => $langdefs,
+            'managewordsurl' => (new \moodle_url('/mod/wordcards/managewords.php', ['id' => $cm->id]))->out(false),
+            'bgstatus' => $this->background_status($mod),
         ];
         return $this->render_from_template('mod_wordcards/word_wizard', $data);
+    }
+
+    /**
+     * A message saying what is still being done in the background, kept up to date as it is done.
+     *
+     * Renders an empty holder when there is nothing, so the message can appear later.
+     *
+     * @param \mod_wordcards_module $mod
+     * @param \moodle_url|null $reloadurl if set, say when the work is done and link here to see it
+     * @return string
+     */
+    public function background_status($mod, $reloadurl = null)
+    {
+        $pending = \mod_wordcards\local\wordwizard\background::pending($mod->get_id());
+        $data = self::background_status_context($pending);
+        $data['cmid'] = $mod->get_cmid();
+        $data['reloadurl'] = $reloadurl ? $reloadurl->out(false) : '';
+        $this->page->requires->js_call_amd('mod_wordcards/bgstatus', 'init', []);
+        return $this->render_from_template('mod_wordcards/ww_bgstatus', $data);
+    }
+
+    /**
+     * The ww_bgstatus template's context, from background::pending(). amd/src/bgstatus.js does the same.
+     *
+     * @param array $pending
+     * @return array
+     */
+    public static function background_status_context(array $pending)
+    {
+        return $pending + [
+            'active' => $pending['words'] > 0 || $pending['images'] > 0,
+            'haswords' => $pending['words'] > 0,
+            'hasimages' => $pending['images'] > 0,
+            'hasretrying' => $pending['retrying'] > 0,
+        ];
     }
 
     /**

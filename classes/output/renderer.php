@@ -643,7 +643,7 @@ class renderer extends \plugin_renderer_base
 
         // get selected definitions language
         $selected = $activitydefinitionslanguage;
-        $userprefdeflanguage = get_user_preferences('wordcards_deflang');
+        $userprefdeflanguage = utils::get_user_deflang();
         if (!empty($userprefdeflanguage)) {
             $selected = $userprefdeflanguage;
         }
@@ -659,7 +659,6 @@ class renderer extends \plugin_renderer_base
         // prepare data for js and html in mustache template
         $data = [];
         $data['dropdownlist'] = \html_writer::select($options, 'mydefs_lang', $selected);
-        $data['activitydefault'] = $activitydefinitionslanguage;
         $data['cssprefix'] = $cssprefix;
         return $this->render_from_template('mod_wordcards/deflang_chooser', $data);
     }
@@ -670,7 +669,7 @@ class renderer extends \plugin_renderer_base
 
         $dd = [];
         // Get the embedded language chooser
-        $currentlang = get_user_preferences('wordcards_deflang');
+        $currentlang = utils::get_user_deflang();
         $dd['langchooser'] = $this->language_chooser($currentlang, 'wordcardsdashboard');
         // Get the word totals and other data
         $dd  = $dd + utils::prepare_usercourseprogress_data($courseid);
@@ -684,7 +683,7 @@ class renderer extends \plugin_renderer_base
     public function embed_nativelangchooser($cmid, $token)
     {
         global $DB;
-        $currentlang = get_user_preferences('wordcards_deflang');
+        $currentlang = utils::get_user_deflang();
         return $this->language_chooser($currentlang, 'wordcardsembed');
     }
 
@@ -841,6 +840,7 @@ class renderer extends \plugin_renderer_base
      */
     public function word_wizard($mod, $cm)
     {
+        global $USER;
         $langterm = utils::fetch_rcdic_lang($mod->get_mod()->ttslanguage);
         $includeother = false;
         // Restrict the list to languages a lookup can actually return for this source language,
@@ -854,6 +854,9 @@ class renderer extends \plugin_renderer_base
             'langdefs' => $langdefs,
             'managewordsurl' => (new \moodle_url('/mod/wordcards/managewords.php', ['id' => $cm->id]))->out(false),
             'bgstatus' => $this->background_status($mod),
+            // The policy is left out here because the page can ask for it.
+            'aiavailable' => \mod_wordcards\local\ai\translator::is_available($mod->get_context(), null, false),
+            'aipolicyaccepted' => \mod_wordcards\local\ai\translator::policy_accepted($USER->id),
         ];
         return $this->render_from_template('mod_wordcards/word_wizard', $data);
     }
